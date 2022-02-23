@@ -1,0 +1,85 @@
+/* $Id: slidingGallery.css 93152 2012-03-29 04:27:00Z gopi_borra $
+/css/0.1/screen/slideshow/modules/slidingGallery.css
+(c)2006 - 2011 The New York Times Company */ 
+
+@import url(/web/20120731235013cs_/http://graphics8.nytimes.com/css/0.1/screen/common/modules/pagination/bidirectionalNumericStepper.css);
+
+#spanABTopRegion .embeddedSlideshow .caption,
+.aColumn .ledeStory .embeddedSlideshow .caption,
+.ledePhoto .embeddedSlideshow .caption,
+.blog .embeddedSlideshow .caption {
+  margin-bottom: 8px;
+}
+
+.embeddedSlideshow,
+.embeddedSlideshow .slideShowContainer {
+  overflow: hidden;
+  position: relative;
+  background: #fff;
+}
+
+.image {
+  margin-bottom: 0;
+}
+
+.embeddedSlideshow .nextcontainer {
+  right: 0;
+}
+
+.embeddedSlideshow .prevcontainer {
+  left: 0;
+}
+
+.embeddedSlideshow .nextcontainer,
+.embeddedSlideshow .prevcontainer {
+  position: absolute;
+  top: 56px;
+  z-index: 1;
+}
+
+.embeddedSlideshow .nextImage,
+.embeddedSlideshow .prevImage {
+  background: url("/web/20120731235013im_/http://graphics8.nytimes.com/images/multimedia/10x10.gif");
+  cursor: pointer;
+  top: 56px;
+  z-index: 1;
+}
+
+.embeddedSlideshow .mediaOverlay {
+  background-color: #000;
+  color: #fff;
+  font-size: 0.925em; /* 11px */  
+}
+
+.embeddedSlideshow .credit {
+  color: #999;
+  font-size: 0.75em; /* 9px */ 
+  padding: 0;
+}
+
+.embeddedSlideshow .caption {
+  line-height: 1.363em; /* 15px */
+}
+
+
+/*
+     FILE ARCHIVED ON 23:50:13 Jul 31, 2012 AND RETRIEVED FROM THE
+     INTERNET ARCHIVE ON 12:28:10 Feb 23, 2022.
+     JAVASCRIPT APPENDED BY WAYBACK MACHINE, COPYRIGHT INTERNET ARCHIVE.
+
+     ALL OTHER CONTENT MAY ALSO BE PROTECTED BY COPYRIGHT (17 U.S.C.
+     SECTION 108(a)(3)).
+*/
+/*
+playback timings (ms):
+  captures_list: 312.965
+  exclusion.robots: 0.096
+  exclusion.robots.policy: 0.088
+  RedisCDXSource: 3.716
+  esindex: 0.014
+  LoadShardBlock: 237.52 (3)
+  PetaboxLoader3.datanode: 279.254 (5)
+  CDXLines.iter: 29.195 (3)
+  load_resource: 157.464 (2)
+  PetaboxLoader3.resolve: 27.328
+*/

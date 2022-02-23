@@ -1,0 +1,758 @@
+var _____WB$wombat$assign$function_____ = function(name) {return (self._wb_wombat && self._wb_wombat.local_init && self._wb_wombat.local_init(name)) || self[name]; };
+if (!self.__WB_pmw) { self.__WB_pmw = function(obj) { this.__WB_source = obj; return this; } }
+{
+  let window = _____WB$wombat$assign$function_____("window");
+  let self = _____WB$wombat$assign$function_____("self");
+  let document = _____WB$wombat$assign$function_____("document");
+  let location = _____WB$wombat$assign$function_____("location");
+  let top = _____WB$wombat$assign$function_____("top");
+  let parent = _____WB$wombat$assign$function_____("parent");
+  let frames = _____WB$wombat$assign$function_____("frames");
+  let opener = _____WB$wombat$assign$function_____("opener");
+
+/*  embeddedSlideshowStandard.js
+ * $Id: embeddedSlideshowStandard.js 91817 2012-03-19 06:08:45Z gopi_borra $
+ * author: vishal
+ *  This file is used for standard embedded slideshow(when 'NYTD.options.renderstyle' has no specific type),
+ *  which gets image details from an api and displays with respect to an image slider  .
+ *--------------------------------------------------------------------------*/
+//var NYTD = window.NYTD || {};
+    
+        
+NYTD.embeddedSlideshowStandard = Class.create({
+        
+        initialize: function() {
+            
+	     /* Variables for iPad */
+            this.triggerElementID = null; // this variable is used to identity the triggering element
+			this.fingerCount = 0;
+			this.startX = 0;
+			this.startY = 0;
+			this.curX = 0;
+			this.curY = 0;
+			this.minLength = 72; // the shortest distance the user may swipe
+			this.swipeLength = 0;
+			this.swipeAngle = null;
+			
+            this.stepperContainer = new Element('div').addClassName('stepperContainer wrap'); 
+            this.slides = [];
+            this.steppers = [];
+            this.imageWidth = 0;
+            this.imageHeight = 0;
+            this.shortCaption = [];
+            this.slideContainer;
+            this.arrowInstance = [];
+            this.buttonImages = ["previous_arrow_disabled", "previous_arrow", "next_arrow_disabled", "next_arrow"];
+            
+            for(var i = 0; i < 4; i++) {
+                var arrowImage = new Image();
+                arrowImage.src = "https://web.archive.org/web/20120802162054/http://graphics8.nytimes.com/images/multimedia/buttons/" + this.buttonImages[i] + ".gif";
+                arrowImage.width = "23";
+                arrowImage.height = "20";
+                this.arrowInstance[i] = new Element('a', {className : 'stepperButton hidden'}).update(arrowImage);
+            }
+            
+            this.arrowInstance[0].className="stepperButton";
+            this.arrowInstance[3].className="stepperButton";
+            
+            this.prevContainer = new Element('div', {className : 'prevcontainer'});
+            this.nextContainer = new Element('div', {className : 'nextcontainer'});             
+            this.nextImage = new Element('div', {className : 'nextImage', style : 'width: 84px; right: 0'});
+            this.prevImage = new Element('div', {className : 'prevImage', style : 'width: 84px; left: 0'});            
+            this.nextArrow = new Element('div', {className : 'nextArrow meta', style : 'padding-right: 15px; right: 10px; text-align: right' }).update("NEXT");
+            this.prevArrow = new Element('div', {className : 'prevArrow meta', style : 'padding-left: 15px; left: 10px' }).update("PREV");
+            this.stepperNumbers = new Element('ul', {className: "stepperNumbers flush"}); 		
+			this.captionDiv = [];
+			this.captionContainer = new Element('div');
+            this.maindiv = "";
+                        
+            //traverse and find the div where you want to attach the slideshow. In case of multiple slideshows, 
+			//sequentially this loop will find the divs and attach the slideshows.			
+			var appendToDivArray = this.getSlideshowContainer();
+			if (appendToDivArray.length != 0) {	
+				this.appendToDiv = appendToDivArray[0];
+				for(var containers = 0; containers < appendToDivArray.length; containers++ ) {
+					if(appendToDivArray[containers].childElements().length == 0) {
+						this.appendToDiv = appendToDivArray[containers];
+						break;
+					}					
+				}
+			}
+            this.maindiv = new Element('div', {className : 'embeddedSlideshow'});
+			 //adjust the slideshow width for bits blog without wide ad
+			if(($$('meta[name=SCG]')[0].content == "bits") && this.wideAd != true ) {
+				this.appendToDiv.addClassName('w592');
+			}
+			this.maindiv.style.marginBottom = "8px";
+			this.appendToDiv.update(this.maindiv);
+            this.beginSlideShow(data);
+        }, 
+			
+		getSlideshowContainer: function() {
+			var slideshowContainer = [];
+			switch(NYTD.options.appendTo) { 
+                case 'embeddedSlideshow':
+					slideshowContainer = $$('div[class=embeddedSlideshow]');
+                    break;
+				case 'ledePhoto':
+					slideshowContainer = $$('div[class=ledePhoto]');
+					break;
+                default:
+					slideshowContainer = $$(NYTD.options.appendTo);
+                    break;
+            }
+			return slideshowContainer;
+		},
+    
+        //Parses through json response & builds image details into an array depending on the cropType
+        beginSlideShow: function(response) {
+            this.data = response.items;    
+            //ul which holds the images
+            this.slideContainer = new Element('ul',{className:'slideShowContainer flush wrap'});
+            NYTD.embeddedSlideshowStandard.noOfImages = 0;
+            this.previousSelection = 1; 
+            var containerDimension = this.getContainerDimension(NYTD.options.cropType);
+            this.imageWidth = containerDimension['width'];
+            this.imageHeight = containerDimension['height'];
+            this.captionLine = containerDimension['captionLine'];
+            this.linkLabel = response.linkLabel;                        
+            var maxCaptionHeight = 0;
+            
+            this.checkLimit = this.generateSliderNumber(response);
+            var count = 1;
+            for(var i=0; i < (this.data.length) && count<=this.checkLimit; i++) {                    
+                var imgFlag = false;
+                var slideImage = new Image(); 
+        
+                for(var j = 0; j < this.data[i].image.crops.length; j++) {
+                    //It is checked if the passed crop type is available in the item
+                    if(this.data[i].image.crops[j].type == NYTD.options.cropType) {
+                        imgFlag = true;                        
+                        if( i == 0) {
+                            this.imageHeight = this.data[i].image.crops[j].height;
+                        }
+                        this.imageHeight = (this.imageHeight > this.data[i].image.crops[j].height)?this.imageHeight:this.data[i].image.crops[j].height;
+                        slideImage.src = this.data[i].image.crops[j].link;
+                        
+                        //calculates the positions of NEXT & PREV hover arrows 
+                        this.nextImage.style.height = Math.floor((this.imageHeight/2)) + "px";
+                        this.prevImage.style.height = Math.floor((this.imageHeight/2)) + "px";
+                        this.nextArrow.style.top = Math.floor(parseInt(((parseInt(this.imageHeight,10)/2) - 61),10)) + "px";
+                        this.prevArrow.style.top = Math.floor(parseInt(((parseInt(this.imageHeight,10)/2) - 61),10)) + "px"; 
+                        this.nextContainer.style.width = this.nextImage.style.width;
+                        this.nextContainer.style.height = this.nextImage.style.height;
+                        this.nextImage.appendChild(this.nextArrow);
+                        this.nextContainer.appendChild(this.nextImage);
+                        this.prevContainer.style.width = this.prevImage.style.width;
+                        this.prevContainer.style.height = this.prevImage.style.height;
+                        this.prevImage.appendChild(this.prevArrow);
+                        this.prevContainer.appendChild(this.prevImage);
+                    }
+                }
+
+                if(imgFlag) {
+                      
+                    var liElement = new Element('li', {className : 'slide', style : 'float: left'});
+                    liElement.style.width = this.imageWidth + "px";
+                    liElement.style.height = parseInt((parseInt(this.imageHeight,10) + 15),10) + "px";
+                    
+                         var overlayText = (this.data[i].textOverlay) || (response.defaultTextOverlay);
+                    var mediaOverlay = new Element('div').addClassName('mediaOverlay').update(overlayText); 
+                    mediaOverlay.style.height = "13px";
+                         // Changes for WideAd Page
+                    if (this.wideAd == true) {
+                        mediaOverlay.style.marginTop = "-35px";                     
+                    } 
+                    var credit = new Element('h6').addClassName('credit').update(this.data[i].image.credit);     
+                    
+                    //picks the slide specific link if exists or else picks the default SlideLink
+                    this.slideLink = this.data[i].slideLink || response.defaultSlideLink; 
+                    if(this.slideLink != '') {
+                        this.imageDiv = new Element('div').addClassName('image').update(new Element('a',{href : this.slideLink}).update(slideImage));
+                    } else {
+                        this.imageDiv = new Element('div').addClassName('image').update(new Element('a').update(slideImage));
+                    }
+                         
+                    this.imageDiv.style.width= this.imageWidth + "px";
+                    this.imageDiv.style.height = this.imageHeight + "px";
+                    this.imageDiv.appendChild(credit);        
+                    
+                    var imgContainer = new Element('div')
+                    imgContainer.style.height = this.imageHeight + "px";
+                    imgContainer.insert(this.imageDiv);    
+         
+                     //append the image Overlay text only if exists                        
+                    if(overlayText) {
+                        imgContainer.appendChild(mediaOverlay);        
+                    }
+                    // Changes for WideAd Page
+                    if (this.wideAd == true) {
+                        slideImage.width  = this.imageWidth;
+                        this.imageDiv.style.height = "auto"; 
+                        imgContainer.style.height = "auto";
+                        liElement.style.height = "auto";
+                        this.nextArrow.style.top = Math.floor(parseInt(((parseInt(this.nextImage.style.height,10)/2)),10)) + "px";
+                        this.prevArrow.style.top = Math.floor(parseInt(((parseInt(this.prevImage.style.height,10)/2)),10)) + "px"; 
+                    }    
+                    
+                    liElement.insert(imgContainer); 
+                    this.slides[NYTD.embeddedSlideshowStandard.noOfImages] = liElement;
+                    this.slideContainer.insert(liElement);                    
+					var captionCounter = 0;
+					do{
+						this.shortCaption[NYTD.embeddedSlideshowStandard.noOfImages] = "";
+                        if(this.data[i].captions.length > 0 && this.data[i].captions[captionCounter].type == "Short") {
+                            this.shortCaption[NYTD.embeddedSlideshowStandard.noOfImages] = this.data[i].captions[captionCounter].caption;
+							break;
+						}
+						captionCounter++;
+					}while(captionCounter < this.data[i].captions.length)
+                    count++;
+                    NYTD.embeddedSlideshowStandard.noOfImages++;
+                }
+        
+            }
+            
+            if(NYTD.embeddedSlideshowStandard.noOfImages >0) {
+                this.slideContainer.style.width =(this.slides.length * this.imageWidth + 10) + "px";
+                this.slideContainer.style.height = parseInt(this.imageHeight,10) + 15 + "px";
+                
+                if (NYTD.options.showHeadline == "true") {
+                this.maindiv.update(new Element('h1').update(new Element('a',{'href': response.link}).update(response.title))); 
+                }
+                
+                this.maindiv.appendChild(this.prevContainer);
+                this.maindiv.appendChild(this.slideContainer);
+                this.maindiv.appendChild(this.nextContainer);
+                this.nextContainer.show();
+                this.prevContainer.show();
+                this.nextArrow.hide();
+                this.prevArrow.hide();
+                    
+                this.selectedSlide = 1;
+                this.stepperStart = 1; 
+                this.stepperEnd = (this.checkLimit > NYTD.embeddedSlideshowStandard.noOfImages) ? NYTD.embeddedSlideshowStandard.noOfImages : this.checkLimit; 
+                this.noOfSteppers = this.stepperEnd;
+                NYTD.embeddedSlideshowStandard.noOfImages = this.stepperEnd;
+                this.maindiv.style.visibility = "visible";
+                this.maindiv.style.width = this.imageWidth + "px";               
+                this.maindiv.appendChild(this.addSteppers(NYTD.embeddedSlideshowStandard.noOfImages));
+                //append the image caption only if exists				
+				this.maindiv.appendChild(this.captionContainer);
+				var captionComputedHeight;
+				for (var i = 0; i < this.shortCaption.length; i++) {
+					this.captionDiv[i] = new Element('div').addClassName('caption');
+					this.captionDiv[i].style.position = 'absolute';
+					this.captionDiv[i].style.maxWidth = containerDimension['maxWidth'];
+					this.captionContainer.appendChild(this.captionDiv[i]);
+					this.captionDiv[i].update(this.shortCaption[i]);
+					captionComputedHeight = this.getCaptionHeight(this.captionDiv[i]);
+					maxCaptionHeight = (captionComputedHeight > maxCaptionHeight) ? captionComputedHeight : maxCaptionHeight; 
+					this.captionDiv[i].hide();
+				}
+				this.captionDiv[0].show();
+				this.captionContainer.style.height = maxCaptionHeight + "px";
+				this.maindiv.style.height = (this.imageHeight + maxCaptionHeight + 47) + "px" ;
+				// Changes for WideAd Page
+                if (this.wideAd == true) {
+                    this.slideContainer.style.height = "auto";
+                    this.maindiv.style.height = "auto" ;
+                }
+                this.prevImage.style.cursor = "default"; 
+                this.isClickable = true;
+                this.attachEvents(NYTD.embeddedSlideshowStandard.noOfImages, function(clickValue){
+                    this.isClickable = clickValue; 
+                });
+            }            
+        },
+		
+		getCaptionHeight: function(element) {			
+			var captionHeight = element.offsetHeight;
+			return captionHeight;		
+		},
+    
+        //This function decides on the number of slider li's to display at once
+        generateSliderNumber: function(response) {
+            
+            var noOfSliders = 0;
+            if(response.embeddedSlideLimit){
+                noOfSliders = response.embeddedSlideLimit;
+            } else {
+                noOfSliders = this.getSliderCount(NYTD.options.cropType);
+            }
+            return noOfSliders;            
+        },
+    
+        // To hide the extra sliders (i.e, the current unselected sliders)
+        showHideSteppers: function(totalSlides) {
+            for(var i=1; i <= totalSlides; i++) {
+                if(i >= Math.abs(this.stepperStart) && i <= Math.abs(this.stepperEnd)) { 
+                    this.steppers[i-1].removeClassName('hidden');
+                } else { 
+                    this.steppers[i-1].addClassName('hidden');
+                }
+            }
+        },
+    
+        // Function for various mouse events
+        attachEvents: function(totalSlides, callback) {
+            
+            // click event for left arrow on slider
+            Event.observe(this.arrowInstance[1],'click',function(e) {
+                this.onleftClick(totalSlides);
+            }.bind(this));
+            
+            // click event for right arrow on slider
+            Event.observe(this.arrowInstance[3],'click',function(e) {
+                this.onRightClick(totalSlides, callback);
+            }.bind(this));
+           
+            //click event for next arrow on hover 
+            Event.observe(this.nextImage, 'click', function() {    
+                this.onRightClick(totalSlides, callback);                   
+            }.bind(this));
+
+            //click event for next arrow on hover 
+            Event.observe(this.nextArrow, 'click', function() {    
+                this.onRightClick(totalSlides, callback);                   
+            }.bind(this));
+            
+            //click event for previous arrow on hover 
+            Event.observe(this.prevImage, 'click', function() {
+             if(this.selectedSlide != 1) {
+                    this.onleftClick(totalSlides);
+	           }
+            }.bind(this));
+
+            //click event for previous arrow on hover 
+            Event.observe(this.prevArrow, 'click', function() {
+                    this.onleftClick(totalSlides);                    
+            }.bind(this));
+             
+            Event.observe(this.prevContainer, 'mouseover', function() {
+                if(!(this.selectedSlide == 1) && (!this.prevtimeoutId || this.prevtimeoutId == 0)) { 
+                    Effect.Appear(this.prevArrow, { duration:0.3, afterFinish: function() {this.prevtimeoutId = Element.delay(5, this.prevImage)}.bind(this)});
+                }
+            }.bind(this));
+
+            //Disable next arrow on mouse out
+            Event.observe(this.prevContainer, 'mouseout', function() { 
+                if (!(this.selectedSlide==1)){
+                    if(this.prevtimeoutId) {
+                      Effect.Fade(this.prevArrow, { duration:0.3, afterFinish: function() {this.prevtimeoutId = 0}.bind(this)});
+                    }
+                } else {
+                    this.prevArrow.hide();
+				    if(this.slideLink == '') {	                    
+						this.prevImage.style.cursor = "default";
+				    }
+                }
+            }.bind(this));
+
+     
+            Event.observe(this.nextContainer, 'mouseover', function() { 
+                if(!this.nexttimeoutId || this.nexttimeoutId == 0){
+                  Effect.Appear(this.nextArrow, { duration:0.3, afterFinish: function() {this.nexttimeoutId = Element.delay(5, this.nextImage)}.bind(this)});            
+                }
+            }.bind(this));
+
+            //Disable next arrow on mouse out
+            Event.observe(this.nextContainer, 'mouseout', function() {
+                if(this.nexttimeoutId) {              
+                  Effect.Fade(this.nextArrow, { duration:0.3, afterFinish: function() {this.nexttimeoutId = 0}.bind(this)});
+                }
+            }.bind(this));
+			
+		    /* iPad Swipe Events are registered through these event observers  */
+		    Event.observe(this.appendToDiv, 'touchstart', function() {
+			    this.touchStart(event, 'slideShowImage');
+		    }.bind(this));
+
+		    Event.observe(this.appendToDiv, 'touchmove', function() {
+			    this.touchMove(event);
+		    }.bind(this));
+
+		    Event.observe(this.appendToDiv, 'touchcancel', function() {
+			    this.touchCancel(event);
+		    }.bind(this));
+
+		    Event.observe(this.appendToDiv, 'touchend', function() {
+	            this.touchEnd(event, totalSlides);
+		    }.bind(this));
+            
+            // registering every li as click event
+            for(var i = 0; i < this.steppers.length; i++) { 
+                Event.observe(this.steppers[i], 'click', function(event) { 
+                    // To prevent click event during slide animation.
+                    if (!this.isClickable) {
+                        return; 
+                    }                    
+                    this.isClickable = false;
+                    
+                    var target = (event.currentTarget) ? event.currentTarget.textContent : event.srcElement.innerText;
+                    if(this.selectedSlide != parseInt(target,10)) {
+                       if(Math.abs(target) < this.selectedSlide) {
+                          for(var i = 0; i < this.slides.length; i++) {    
+                            new Effect.Move(this.slides[i], {x:(parseInt(this.imageWidth,10) *(this.selectedSlide - Math.abs(target))), y:0,duration: 0.5, afterFinish: function(){this.isClickable = true;}.bind(this)});
+                          }                                                
+                        } 
+                       else {
+                          for(var i = 0; i < this.slides.length; i++) {    
+                            new Effect.Move(this.slides[i], {x:-(parseInt(this.imageWidth,10) * Math.abs(this.selectedSlide - Math.abs(target))), y:0,duration: 0.5,afterFinish: function(){this.isClickable = true;}.bind(this)});                            
+                          }
+                        }
+                    
+                        this.selectedSlide = parseInt(target,10);                         
+                        this.showSelectedCaption();                       
+                        this.displayStepperArrows(this.selectedSlide,totalSlides);
+                    }
+                }.bind(this));        
+            }            
+        },
+		
+		showSelectedCaption: function() {
+			this.captionDiv[this.selectedSlide-1].show();
+			for (var i = 0; i < this.captionDiv.length; i++) {
+				if (i != (this.selectedSlide-1)) {
+					this.captionDiv[i].hide();
+				}
+			}
+		},
+    
+        // To slide to next image on right click     
+        onRightClick: function(totalSlides, callback){
+            
+             // To prevent right click event during slide animation.
+            if ( this.righttimeoutId !=0 && typeof(this.righttimeoutId) != 'undefined') { 
+                return; 
+            }
+                                
+            if(this.selectedSlide < totalSlides) { 
+                
+                for(this.i=0; this.i< this.slides.length; this.i++){
+                    this.righttimeoutId = Element.delay(100, this.slides[this.i]);
+                    new Effect.Move(this.slides[this.i], {x:-parseInt(this.maindiv.style.width,10), y:0,duration: 0.5,afterFinish: function(){if(this.i > (this.slides.length - 1)){Element.delay(100,this.slides[this.i]);this.righttimeoutId = 0;}}.bind(this)});
+                }
+                this.selectedSlide = Math.abs(this.selectedSlide) + 1; 
+                 
+                // register stepperStart & stepperEnd when slider moves beyond noOfSliders
+                if(this.selectedSlide > (this.stepperEnd)) {
+                    this.stepperStart = (this.stepperStart + 1);
+                    this.stepperEnd = (this.stepperEnd + 1);
+                } 
+                //this.selectedSlide = Math.abs(this.selectedSlide) + 1;
+                this.showHideSteppers(totalSlides);    
+                this.showSelectedCaption();    
+                this.displayStepperArrows(this.selectedSlide,totalSlides);
+            } else if( this.selectedSlide == totalSlides ) {
+                    if(this.slideLink != '') {
+                             window.location = this.slideLink; 
+                    } 
+            }
+        },
+    
+        // To slide to previous image on left click     
+        onleftClick: function(totalSlides, callback){ 
+            
+            if(this.selectedSlide > 1) {
+                // To prevent right click event during slide animation.
+                if ( this.lefttimeoutId !=0 && typeof(this.lefttimeoutId) != 'undefined') { 
+                    return; 
+                }
+                for(this.i=0; this.i< this.slides.length; this.i++){ 
+                    this.lefttimeoutId = Element.delay(100, this.slides[this.i]);
+                    new Effect.Move(this.slides[this.i], {x:parseInt(this.maindiv.style.width,10), y:0,duration: 0.5,afterFinish: function(){if(this.i > (this.slides.length - 1)){Element.delay(100,this.slides[this.i]);this.lefttimeoutId = 0;}}.bind(this)});
+                }
+                this.selectedSlide = Math.abs(this.selectedSlide) - 1;         
+                
+                // register stepperStart & stepperEnd when slider moves beyond noOfSliders
+                if((this.stepperEnd - this.selectedSlide) >= this.noOfSteppers){            
+                    this.stepperStart = (this.stepperStart - 1);
+                    this.stepperEnd = (this.stepperEnd - 1);
+                }
+                
+                this.showHideSteppers(totalSlides);    
+                this.showSelectedCaption();     
+                this.displayStepperArrows(this.selectedSlide,totalSlides);
+            } else {
+					if(this.selectedSlide == 1 && this.slideLink != '') {
+                        window.location = this.slideLink; 
+                    }
+            }
+        },
+     
+        // To changes the slider arrows depending on the clicked li
+        displayStepperArrows: function(selectedCount,imageSliderSize) {
+            this.nextImage.style.cursor = "pointer"; 
+            this.prevImage.style.cursor = "pointer"; 
+            switch(selectedCount) { 
+                case 1: 
+                    this.arrowEnabler(1,0,0,1);
+                    this.prevImage.style.cursor = "default"; 
+                    this.prevArrow.hide();
+                    break;
+                default:
+                    if((selectedCount == imageSliderSize)){ 
+                        this.arrowEnabler(0,1,1,0);
+                    } else { 
+                        this.arrowEnabler(0,1,0,1);
+                    }
+                    break;
+            }
+            // To enable selection for the selected li
+            this.steppers[selectedCount - 1].addClassName("selected");
+            
+            // To disable selection for the previous selected li
+            this.steppers[this.previousSelection - 1].removeClassName("selected");
+            
+            // To change the hover text on next
+            if (selectedCount==imageSliderSize){ 
+                if(this.slideLink != '') {
+                    this.nextArrow.update(this.linkLabel.toUpperCase()); 
+                } else {
+                    this.nextImage.style.cursor = "default"; 
+                    this.nextArrow.update(" ");
+                } 
+            } else {
+              this.nextArrow.update("NEXT");
+            }
+            this.previousSelection = selectedCount;
+        },
+        
+        // enables the left and right arrows depending upon the paramaters passed
+        arrowEnabler: function(leftArrowDisable,leftArrowEnable,rightArrowDisable,rightArrowEnable) { 
+            leftArrowDisable  ? this.arrowInstance[0].className="stepperButton" : this.arrowInstance[0].className="stepperButton hidden";
+            leftArrowEnable   ? this.arrowInstance[1].className="stepperButton"  : this.arrowInstance[1].className="stepperButton hidden";
+            rightArrowDisable ? this.arrowInstance[2].className="stepperButton": this.arrowInstance[2].className="stepperButton hidden";
+            rightArrowEnable  ? this.arrowInstance[3].className="stepperButton" : this.arrowInstance[3].className="stepperButton hidden";
+        },
+        
+        // This method is used to build the <li> for slider
+        addSteppers: function(totalSlides) {
+            
+            for(var i=this.stepperStart; i <= totalSlides; i++) {
+                var stepperLi = new Element('li').update(new Element('a').update(i));
+                // hide the li's beyond noOfSliders
+                if(i > this.stepperEnd) {
+                   stepperLi.addClassName('hidden');
+                }
+                this.steppers[i-1] = stepperLi;           
+                this.stepperNumbers.appendChild(stepperLi);        
+            } 
+            this.steppers[0].className = 'firstItem selected';
+            //attaching next and previous arrows to the slider
+            this.stepperContainer.appendChild(this.arrowInstance[0]);
+            this.stepperContainer.appendChild(this.arrowInstance[1]);    
+            this.stepperContainer.appendChild(this.stepperNumbers)
+            this.stepperContainer.appendChild(this.arrowInstance[2]);
+            this.stepperContainer.appendChild(this.arrowInstance[3]); 
+            
+            return this.stepperContainer;
+            
+        },
+        
+        getSliderCount: function(cropType) { 
+            var noOfSlides;
+            switch(cropType) { 
+                case "hpMedium" :
+                    noOfSlides = 13;
+                    break;
+                case "hpLarge" :
+                    noOfSlides = 20;
+                    break;
+				case "tmagArticle" :
+					noOfSlides = 20;	
+					break;	
+                case "articleLarge" :
+                    noOfSlides = 20;
+                    break;
+                case "sfSpan" :
+                    noOfSlides = 15;
+                    break; 
+                case "blog480" :
+                    noOfSlides = 19;
+                    break;
+            }
+            return noOfSlides;
+        },
+        
+        getContainerDimension: function(cropType) {
+            var containerDimension = [];
+            switch(cropType) { 
+                case "hpMedium" :
+                    containerDimension['width']= 337;
+                    containerDimension['height']= 250;
+                    containerDimension['captionLine']= 67;
+                    containerDimension['maxWidth'] = '335px';
+                    break;
+                case "hpLarge" :
+                    containerDimension['width']= 511;
+                    containerDimension['height']= 320;
+                    containerDimension['captionLine']= 94;
+                    containerDimension['maxWidth'] = '509px';
+                    break;
+				case "tmagArticle" :
+					var wideAd = $$('body[class~=wideAd]')[0];
+					if(wideAd) {
+                        this.wideAd = true;
+                        containerDimension['width']= 464;
+                        containerDimension['height']= 234;
+                        containerDimension['captionLine']= 79;
+                        containerDimension['maxWidth'] = '462px';
+                    } else {
+						containerDimension['width']= 592;
+						containerDimension['height']= 395;
+						containerDimension['captionLine']= 100;
+						containerDimension['maxWidth'] = '590px';
+					}			
+                    break;		
+                case "articleLarge" :
+                    var wideAd = $$('body[class=wideAd]')[0];
+                    if(wideAd) {
+                        this.wideAd = true;
+                        containerDimension['width']= 468;
+                        containerDimension['height']= 234;
+                        containerDimension['captionLine']= 79;
+                        containerDimension['maxWidth'] = '466px';
+                    } else {
+                        containerDimension['width']= 600;
+                        containerDimension['height']= 400;
+                        containerDimension['captionLine']= 109;
+                        containerDimension['maxWidth'] = '598px'; 
+                        }
+                    break;
+                case "sfSpan" :
+                    containerDimension['width']= 395;
+                    containerDimension['height']= 250;
+                    containerDimension['captionLine']= 73;
+                    containerDimension['maxWidth'] = '393px';
+                    break; 
+                case "blog480" :
+                    var wideAd = $$('body[class~=wideAd]')[0];
+                    if(wideAd) {
+                        this.wideAd = true;
+                        containerDimension['width']= 382;
+                        containerDimension['height']= 285;
+                        containerDimension['captionLine']= 70;
+                        containerDimension['maxWidth'] = '380px';
+                    }else {
+                        containerDimension['width']= 480;
+                        containerDimension['height']= 300;
+                        containerDimension['captionLine']= 88;
+                        containerDimension['maxWidth'] = '478px';
+                    }
+                    break;
+            }
+            return containerDimension;
+        },
+
+			// The 4 Touch Event Handlers
+			
+			// NOTE: the touchStart handler should also receive the ID of the triggering element
+			// make sure its ID is passed in the event call placed in the element declaration, like:
+			// <div id="picture-frame" ontouchstart="touchStart(event,'picture-frame');"  ontouchend="touchEnd(event);" ontouchmove="touchMove(event);" ontouchcancel="touchCancel(event);">
+		
+			touchStart: function(event, passedName) {
+				// disable the standard ability to select the touched object
+				// get the total number of fingers touching the screen
+				this.fingerCount = event.targetTouches.length;
+				// since we're looking for a swipe (single finger) and not a gesture (multiple fingers),
+				// check that only one finger was used
+				if ( this.fingerCount == 1 ) {
+					// get the coordinates of the touch
+					this.startX = event.targetTouches[0].pageX;
+					this.startY = event.targetTouches[0].pageY;
+					// store the triggering element ID
+					this.triggerElementID = passedName;
+				} else {
+					// more than one finger touched so cancel
+					this.touchCancel(event);
+				}
+			},
+		
+			touchMove: function(event) {
+				event.preventDefault();
+				if ( event.targetTouches.length == 1 ) {
+					this.curX = event.targetTouches[0].pageX;
+					this.curY = event.targetTouches[0].pageY;
+
+				} else {
+					touchCancel(event);
+				}
+			},
+			
+			touchEnd: function(event, totalSlides) {
+				// check to see if more than one finger was used and that there is an ending coordinate
+				if ( this.fingerCount == 1 && this.curX != 0 ) {
+					// use the Distance Formula to determine the length of the swipe
+					this.swipeLength = Math.round(Math.sqrt(Math.pow(this.curX - this.startX,2) + Math.pow(this.curY - this.startY,2)));
+					// if the user swiped more than the minimum length, perform the appropriate action
+                                   this.minLength=72;
+					if ( this.swipeLength >= this.minLength ) {
+						this.caluculateAngle();
+						this.determineSwipeDirection(totalSlides);
+						this.touchCancel(event); // reset the variables
+					} else {
+						this.touchCancel(event);
+					}	
+				} else {
+					this.touchCancel(event);
+				}
+			},
+		
+			touchCancel: function(event) {
+				// reset the variables back to default values
+				this.fingerCount = 0;
+				this.startX = 0;
+				this.startY = 0;
+				this.curX = 0;
+				this.curY = 0;
+				this.swipeLength = 0;
+				this.swipeAngle = null;
+				this.triggerElementID = null;
+			},
+			
+			caluculateAngle: function() {
+				var X = this.startX-this.curX;
+				var Y = this.curY-this.startY;
+				var Z = Math.round(Math.sqrt(Math.pow(X,2)+Math.pow(Y,2))); //the distance - rounded - in pixels
+				var r = Math.atan2(Y,X); //angle in radians (Cartesian system)
+				this.swipeAngle = Math.round(r*180/Math.PI); //angle in degrees
+
+				if ( this.swipeAngle < 0 ) { this.swipeAngle =  360 - Math.abs(this.swipeAngle); }
+			},
+			
+			determineSwipeDirection: function(totalSlides) {
+				if ( (this.swipeAngle <= 45) && (this.swipeAngle >= 0) ) {
+					this.onRightClick(totalSlides, true);
+				} else if ( (this.swipeAngle <= 360) && (this.swipeAngle >= 315) ) {
+					this.onRightClick(totalSlides);
+				} else if ( (this.swipeAngle >= 135) && (this.swipeAngle <= 225) ) {
+					this.onleftClick(totalSlides, true);
+				}
+			}
+
+});
+
+}
+/*
+     FILE ARCHIVED ON 16:20:54 Aug 02, 2012 AND RETRIEVED FROM THE
+     INTERNET ARCHIVE ON 12:28:12 Feb 23, 2022.
+     JAVASCRIPT APPENDED BY WAYBACK MACHINE, COPYRIGHT INTERNET ARCHIVE.
+
+     ALL OTHER CONTENT MAY ALSO BE PROTECTED BY COPYRIGHT (17 U.S.C.
+     SECTION 108(a)(3)).
+*/
+/*
+playback timings (ms):
+  captures_list: 74.885
+  exclusion.robots: 0.15
+  exclusion.robots.policy: 0.135
+  RedisCDXSource: 0.879
+  esindex: 0.013
+  LoadShardBlock: 52.021 (3)
+  PetaboxLoader3.datanode: 82.0 (4)
+  CDXLines.iter: 17.986 (3)
+  load_resource: 216.991
+  PetaboxLoader3.resolve: 90.577
+*/

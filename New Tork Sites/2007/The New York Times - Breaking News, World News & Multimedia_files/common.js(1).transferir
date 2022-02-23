@@ -1,0 +1,68 @@
+var _____WB$wombat$assign$function_____ = function(name) {return (self._wb_wombat && self._wb_wombat.local_init && self._wb_wombat.local_init(name)) || self[name]; };
+if (!self.__WB_pmw) { self.__WB_pmw = function(obj) { this.__WB_source = obj; return this; } }
+{
+  let window = _____WB$wombat$assign$function_____("window");
+  let self = _____WB$wombat$assign$function_____("self");
+  let document = _____WB$wombat$assign$function_____("document");
+  let location = _____WB$wombat$assign$function_____("location");
+  let top = _____WB$wombat$assign$function_____("top");
+  let parent = _____WB$wombat$assign$function_____("parent");
+  let frames = _____WB$wombat$assign$function_____("frames");
+  let opener = _____WB$wombat$assign$function_____("opener");
+
+	function timer(miliseconds){
+		this.timeoutId = null;
+		this.miliseconds = miliseconds; // homepage default: 900000 (15 min);
+		this.videoPlaying = false;
+		this.start();
+		return this;
+	}
+	
+	timer.prototype.start = function(){
+		this.timeoutId = window.setTimeout("checkVideoPlayingCookie();", this.miliseconds);
+	}
+	
+	timer.prototype.stop = function(){
+		if (this.timeoutId != null) window.clearTimeout(this.timeoutId);
+	}
+	
+	timer.prototype.toggle = function(){
+		if (!this.videoPlaying) { this.start(); }
+		else { this.stop(); }
+	}
+
+	function checkVideoPlayingCookie() {
+		pageTimer.stop(); // resetting timeout
+		if (readCookie("playing") == "true") {
+			pageTimer.start(); // check again later
+		} else {
+			document.location.reload();
+		}
+	}
+	
+	var pageTimer = new timer(900000);
+
+
+
+}
+/*
+     FILE ARCHIVED ON 20:22:31 Jun 27, 2007 AND RETRIEVED FROM THE
+     INTERNET ARCHIVE ON 12:25:48 Feb 23, 2022.
+     JAVASCRIPT APPENDED BY WAYBACK MACHINE, COPYRIGHT INTERNET ARCHIVE.
+
+     ALL OTHER CONTENT MAY ALSO BE PROTECTED BY COPYRIGHT (17 U.S.C.
+     SECTION 108(a)(3)).
+*/
+/*
+playback timings (ms):
+  captures_list: 379.25
+  exclusion.robots: 0.124
+  exclusion.robots.policy: 0.117
+  RedisCDXSource: 0.564
+  esindex: 0.007
+  LoadShardBlock: 345.212 (3)
+  PetaboxLoader3.resolve: 252.029 (4)
+  PetaboxLoader3.datanode: 150.145 (4)
+  CDXLines.iter: 17.79 (3)
+  load_resource: 92.248
+*/

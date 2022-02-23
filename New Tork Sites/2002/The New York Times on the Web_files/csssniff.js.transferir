@@ -1,0 +1,55 @@
+var _____WB$wombat$assign$function_____ = function(name) {return (self._wb_wombat && self._wb_wombat.local_init && self._wb_wombat.local_init(name)) || self[name]; };
+if (!self.__WB_pmw) { self.__WB_pmw = function(obj) { this.__WB_source = obj; return this; } }
+{
+  let window = _____WB$wombat$assign$function_____("window");
+  let self = _____WB$wombat$assign$function_____("self");
+  let document = _____WB$wombat$assign$function_____("document");
+  let location = _____WB$wombat$assign$function_____("location");
+  let top = _____WB$wombat$assign$function_____("top");
+  let parent = _____WB$wombat$assign$function_____("parent");
+  let frames = _____WB$wombat$assign$function_____("frames");
+  let opener = _____WB$wombat$assign$function_____("opener");
+
+<!--
+  if (navigator.platform == "MacPPC") {
+    if (navigator.appName == "Netscape"){
+      if(parseFloat(window.navigator.appVersion) >= 5.0){
+        //document.write("<link rel='stylesheet' href='/css/sft1_mac.css' type='text/css'>")
+	document.write("<link rel='stylesheet' href='/css/sft1.css' type='text/css'>")
+      }
+      else{
+        document.write("<link rel='stylesheet' href='/css/sft1_mac.css' type='text/css'>")
+      }
+    }
+    else {
+      document.write("<link rel='stylesheet' href='/css/sft1.css' type='text/css'>")}
+    }
+  else {
+    document.write("<link rel='stylesheet' href='/css/sft1.css' type='text/css'>")
+  }
+// -->
+
+
+
+}
+/*
+     FILE ARCHIVED ON 20:40:59 Jul 01, 2002 AND RETRIEVED FROM THE
+     INTERNET ARCHIVE ON 12:23:21 Feb 23, 2022.
+     JAVASCRIPT APPENDED BY WAYBACK MACHINE, COPYRIGHT INTERNET ARCHIVE.
+
+     ALL OTHER CONTENT MAY ALSO BE PROTECTED BY COPYRIGHT (17 U.S.C.
+     SECTION 108(a)(3)).
+*/
+/*
+playback timings (ms):
+  captures_list: 130.002
+  exclusion.robots: 0.1
+  exclusion.robots.policy: 0.091
+  RedisCDXSource: 0.6
+  esindex: 0.008
+  LoadShardBlock: 98.231 (3)
+  PetaboxLoader3.datanode: 116.129 (4)
+  CDXLines.iter: 17.976 (3)
+  load_resource: 80.686
+  PetaboxLoader3.resolve: 43.379
+*/

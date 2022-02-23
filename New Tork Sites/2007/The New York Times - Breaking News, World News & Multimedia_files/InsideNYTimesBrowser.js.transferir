@@ -1,0 +1,213 @@
+var _____WB$wombat$assign$function_____ = function(name) {return (self._wb_wombat && self._wb_wombat.local_init && self._wb_wombat.local_init(name)) || self[name]; };
+if (!self.__WB_pmw) { self.__WB_pmw = function(obj) { this.__WB_source = obj; return this; } }
+{
+  let window = _____WB$wombat$assign$function_____("window");
+  let self = _____WB$wombat$assign$function_____("self");
+  let document = _____WB$wombat$assign$function_____("document");
+  let location = _____WB$wombat$assign$function_____("location");
+  let top = _____WB$wombat$assign$function_____("top");
+  let parent = _____WB$wombat$assign$function_____("parent");
+  let frames = _____WB$wombat$assign$function_____("frames");
+  let opener = _____WB$wombat$assign$function_____("opener");
+
+/* class for individual slides */
+function InsideNYTimesItem( url , imgUrl , headline , display_name , display_url, isPaid ){
+	this.url = url;
+	this.imgUrl = imgUrl;
+	this.headline = headline;
+	this.display_name = display_name;
+	this.display_url = display_url;	
+	this.isPaid = isPaid;
+	this.parentBrowser = null;
+}						
+							
+/* class for the slide player */
+function InsideNYTimesBrowser( elementId, leftArrowId, rightArrowId, displayItemsCount , scrollItemsCount, imgSrc ){
+	this.elementId = elementId;
+	this.leftArrowId = leftArrowId;
+	this.rightArrowId = rightArrowId;
+	this.displayItemsCount = displayItemsCount;		// total number of items to be displayed at one time
+	this.scrollItemsCount = scrollItemsCount;		// how many items to scroll by when clicking next or previous
+	this.itemArray = new Array();
+	this.itemIndex = 0;
+	this.imgSrc = imgSrc;
+	this.leftImgOff = this.imgSrc + "moth_reverse_off.gif";
+	this.leftImgOn = this.imgSrc + "moth_reverse.gif";
+	this.rightImgOff = this.imgSrc + "moth_forward_off.gif";
+	this.rightImgOn = this.imgSrc + "moth_forward.gif";
+	
+	// self-register
+	//this = window.insideNYTimesBrowserInstance;
+}
+
+
+InsideNYTimesBrowser.prototype.showButtons = function(){
+	if (document.createElement){
+	
+		//begin left arrow
+		MOTHleftArrow = document.getElementById(this.leftArrowId);
+		//create image
+		isOff = (this.itemIndex == 0);
+		MOTHleftArrowImg = document.createElement("IMG");
+		state = (isOff) ? this.leftImgOff : this.leftImgOn;
+		MOTHleftArrowImg.setAttribute("src", state );
+		MOTHleftArrowImg.setAttribute("name", "moth_reverse"); 
+				
+		//create anchor
+		if (!isOff){
+			MOTHleftArrowAnchor = document.createElement( "A" );
+			MOTHleftArrowAnchor.setAttribute("href", "javascript:browser.update(0)");
+			MOTHleftArrowAnchor.appendChild(MOTHleftArrowImg);
+			MOTHleftArrow.appendChild(MOTHleftArrowAnchor);
+		} else {
+			MOTHleftArrow.appendChild(MOTHleftArrowImg);
+		}
+		//end left arrow
+
+		//begin right arrow
+		MOTHrightArrow = document.getElementById(this.rightArrowId);
+		//create image
+		isOff = ((this.itemIndex + this.displayItemsCount) >= this.itemArray.length);
+		MOTHrightArrowImg = document.createElement("IMG");
+		state = (isOff) ? this.rightImgOff : this.rightImgOn;
+		MOTHrightArrowImg.setAttribute("src", state );
+		MOTHrightArrowImg.setAttribute("name", "moth_forward"); 
+		//create anchor
+		if (!isOff){	
+			MOTHrightArrowAnchor = document.createElement("A");
+			MOTHrightArrowAnchor.setAttribute("href" , "javascript:browser.update(1)");
+			MOTHrightArrowAnchor.appendChild(MOTHrightArrowImg);
+			MOTHrightArrow.appendChild(MOTHrightArrowAnchor);
+		} else {
+			MOTHrightArrow.appendChild(MOTHrightArrowImg);
+		}	
+		//end right arrow
+	}
+}
+
+
+InsideNYTimesItem.prototype.write = function(  ){
+	if( document.createElement ){
+		parentElement = document.getElementById( this.parentBrowser.elementId );
+		if( parentElement.tagName == "TABLE" && this.parentBrowser.getHeaderRow && this.parentBrowser.getBodyRow ){
+			
+			// create header
+			headerObj = document.createElement( "TH" );
+			headerTitleObj = document.createElement( "H4" );
+			if (this.display_url == "#") { 
+				anchorObj = document.createTextNode(this.display_name);
+			} else {
+				anchorObj = document.createElement("A");
+				anchorObj.setAttribute("href", this.display_url);
+				
+				if( this.isPaid ) { 
+					linkedObj = document.createElement("IMG");
+					linkedObj.setAttribute("src", "https://web.archive.org/web/20070627201905/http://graphics8.nytimes.com/images/headers/timesselect_header92x11.gif");	
+					anchorObj.appendChild(linkedObj);
+				} else {
+					anchorObj.appendChild(document.createTextNode( this.display_name + " »"));
+				}
+			}
+					
+			headerTitleObj.appendChild( anchorObj );
+			headerObj.appendChild( headerTitleObj );
+			this.parentBrowser.getHeaderRow().appendChild( headerObj );
+			
+			// create body
+			tdObj = document.createElement( "TD" );
+			storyObj = document.createElement( "DIV" );
+			storyObj.className = "story";
+			calloutObj = document.createElement( "DIV" );
+			calloutObj.className = "callout";
+			calloutLinkObj = document.createElement( "A" );
+			calloutLinkObj.setAttribute( "href" , this.url );
+			calloutImgObj = document.createElement( "IMG" );
+			calloutImgObj.setAttribute( "src" , this.imgUrl );
+			calloutImgObj.setAttribute( "alt" , this.headline );
+			calloutLinkObj.appendChild( calloutImgObj );
+			calloutObj.appendChild( calloutLinkObj );
+			storyObj.appendChild( calloutObj );
+			headlineObj = document.createElement( "H5" );
+			headlineLinkObj = document.createElement( "A" );
+			headlineLinkObj.setAttribute( "href" , this.url );
+			if( this.isPaid ) headlineLinkObj.className = "select";
+			headlineLinkObj.appendChild( document.createTextNode( this.headline ) );
+			headlineObj.appendChild( headlineLinkObj );
+			storyObj.appendChild( headlineObj );
+			tdObj.appendChild( storyObj );
+			this.parentBrowser.getBodyRow().appendChild( tdObj );	
+		}
+	}
+}							
+							
+InsideNYTimesBrowser.prototype.addItem = function( item ){
+	if( item instanceof InsideNYTimesItem ){
+		item.parentBrowser = this;
+		this.itemArray.push( item );
+	}
+}			
+							
+InsideNYTimesBrowser.prototype.update = function( doMoveRight ){
+	tableObj = document.getElementById( this.elementId );
+	
+	//increment index count
+	var origIndex = this.itemIndex;
+	this.itemIndex = (doMoveRight) ? this.itemIndex + this.scrollItemsCount : this.itemIndex - this.scrollItemsCount;
+	
+	//set upper and lower bounds
+	this.upperBound = this.itemArray.length - this.displayItemsCount;
+	this.itemIndex = ((this.itemIndex + this.displayItemsCount) > this.itemArray.length) ? this.itemArray.length-this.displayItemsCount : this.itemIndex;
+	this.itemIndex = (this.itemIndex < 0) ? 0 : this.itemIndex;
+	
+	//update button images
+	this.deleteAllChildrenOf(document.getElementById(this.leftArrowId));
+	this.deleteAllChildrenOf(document.getElementById(this.rightArrowId));
+	this.showButtons();
+	
+	if (origIndex != this.itemIndex){
+		//clear 
+		this.deleteAllChildrenOf( this.getHeaderRow() );
+		this.deleteAllChildrenOf( this.getBodyRow() );
+		
+		// re-populate
+		for( iUpdate=this.itemIndex ; iUpdate < (this.itemIndex + this.displayItemsCount) ; iUpdate++ ){
+			this.itemArray[iUpdate].write();
+		}
+	}
+}
+
+InsideNYTimesBrowser.prototype.getHeaderRow = function(){
+	return document.getElementById( this.elementId ).getElementsByTagName( "THEAD" )[0].getElementsByTagName( "TR" )[0];
+}
+
+InsideNYTimesBrowser.prototype.getBodyRow = function(){
+	return document.getElementById( this.elementId ).getElementsByTagName( "TBODY" )[0].getElementsByTagName( "TR" )[0];
+}
+
+InsideNYTimesBrowser.prototype.deleteAllChildrenOf = function( elementObj ){
+	while (elementObj.hasChildNodes()) elementObj.removeChild(elementObj.firstChild);
+}
+
+
+}
+/*
+     FILE ARCHIVED ON 20:19:05 Jun 27, 2007 AND RETRIEVED FROM THE
+     INTERNET ARCHIVE ON 12:25:52 Feb 23, 2022.
+     JAVASCRIPT APPENDED BY WAYBACK MACHINE, COPYRIGHT INTERNET ARCHIVE.
+
+     ALL OTHER CONTENT MAY ALSO BE PROTECTED BY COPYRIGHT (17 U.S.C.
+     SECTION 108(a)(3)).
+*/
+/*
+playback timings (ms):
+  captures_list: 251.72
+  exclusion.robots: 0.109
+  exclusion.robots.policy: 0.1
+  RedisCDXSource: 0.595
+  esindex: 0.01
+  LoadShardBlock: 200.998 (3)
+  PetaboxLoader3.datanode: 224.622 (4)
+  CDXLines.iter: 16.27 (3)
+  load_resource: 119.438
+  PetaboxLoader3.resolve: 68.801
+*/

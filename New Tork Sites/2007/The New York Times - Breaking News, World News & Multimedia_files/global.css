@@ -1,0 +1,86 @@
+/*
+$Id: global.css,v 1.8 2006/12/18 22:26:39 cookn Exp $
+(c)2006 - 2007 The New York Times Company 
+*/
+
+
+body {
+	background-color: white;
+	font: small Georgia, serif;
+	}
+
+
+html>body {
+	font: 84.5% Georgia, serif;
+	}
+
+h1, h2, h3, h4, h5 {
+	color: black;
+	}
+
+a {
+	color: #004276;
+	text-decoration: none;
+	}
+
+a:hover {
+	text-decoration: underline;
+	}
+
+a:visited {
+	color: #666699;
+	}
+
+img {
+	border: none;
+	text-decoration: none;
+	}
+
+form {
+	padding: 0px;
+	width: 0px;
+	display: inline;
+	}
+
+ul {
+	margin: 0;
+	padding: 0;
+	list-style: none;
+	}
+	
+ol {
+	margin: 0;
+	padding: 0;
+	}
+	
+li {
+	margin: 0;
+	padding: 0;
+	}
+	
+#nagBar {
+	display: none;
+	}
+
+
+/*
+     FILE ARCHIVED ON 20:16:40 Jun 30, 2007 AND RETRIEVED FROM THE
+     INTERNET ARCHIVE ON 12:25:49 Feb 23, 2022.
+     JAVASCRIPT APPENDED BY WAYBACK MACHINE, COPYRIGHT INTERNET ARCHIVE.
+
+     ALL OTHER CONTENT MAY ALSO BE PROTECTED BY COPYRIGHT (17 U.S.C.
+     SECTION 108(a)(3)).
+*/
+/*
+playback timings (ms):
+  captures_list: 576.523
+  exclusion.robots: 0.108
+  exclusion.robots.policy: 0.097
+  RedisCDXSource: 3.649
+  esindex: 0.009
+  LoadShardBlock: 119.346 (3)
+  PetaboxLoader3.datanode: 125.836 (4)
+  CDXLines.iter: 70.835 (3)
+  load_resource: 168.548
+  PetaboxLoader3.resolve: 103.103
+*/

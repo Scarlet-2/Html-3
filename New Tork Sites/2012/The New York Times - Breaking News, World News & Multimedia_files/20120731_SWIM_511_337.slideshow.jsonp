@@ -1,0 +1,407 @@
+var _____WB$wombat$assign$function_____ = function(name) {return (self._wb_wombat && self._wb_wombat.local_init && self._wb_wombat.local_init(name)) || self[name]; };
+if (!self.__WB_pmw) { self.__WB_pmw = function(obj) { this.__WB_source = obj; return this; } }
+{
+  let window = _____WB$wombat$assign$function_____("window");
+  let self = _____WB$wombat$assign$function_____("self");
+  let document = _____WB$wombat$assign$function_____("document");
+  let location = _____WB$wombat$assign$function_____("location");
+  let top = _____WB$wombat$assign$function_____("top");
+  let parent = _____WB$wombat$assign$function_____("parent");
+  let frames = _____WB$wombat$assign$function_____("frames");
+  let opener = _____WB$wombat$assign$function_____("opener");
+
+jsonSlideshowCallback({
+  "status": "ok",
+  "title": "Phelps Breaks Olympic Medals Record",
+  "description": "Michael Phelps won two medals, becoming the most decorated Olympian in any sport, and China’s Ye Shiwen took gold in the 200-meter individual medley.",
+  "creator": "",
+  "kicker": "",
+  "link": "null",
+  "copyright": "Copyright 2011 The New York Times Company",
+  "lastBuildDate": "Jul 31, 2012 7:27:59 PM",
+  "defaultSlideLink": "https://web.archive.org/web/20120731234947/http://www.nytimes.com/2012/08/01/sports/olympics/olympic-swimming-results.html?hp",
+  "defaultTextOverlay": "",
+  "linkLabel": "",
+  "introduction": {
+    "text": ""
+  },
+  "items": [
+    {
+      "title": "20120731_SWIM_511_337-slide-3S37",
+      "slideLink": "",
+      "textOverlay": "",
+      "captions": [
+        {
+          "type": "Full",
+          "caption": "<p>Conor Dwyer, Michael Phelps, Ryan Lochte and Ricky Berens with their gold medals after winning the 4x200 freestyle relay.&#160;</p>"
+        },
+        {
+          "type": "Short",
+          "caption": "Conor Dwyer, Michael Phelps, Ryan Lochte and Ricky Berens."
+        }
+      ],
+      "image": {
+        "credit": "Martin Bureau/Agence France-Presse — Getty Images",
+        "crops": [
+          {
+            "type": "superJumbo",
+            "height": 1363,
+            "width": 2048,
+            "link": "https://web.archive.org/web/20120731234947/http://graphics8.nytimes.com/images/2012/07/31/sports/20120731_SWIM_511_337-slide-3S37/20120731_SWIM_511_337-slide-3S37-superJumbo.jpg"
+          },
+          {
+            "type": "hpLarge",
+            "height": 250,
+            "width": 511,
+            "link": "https://web.archive.org/web/20120731234947/http://graphics8.nytimes.com/images/2012/07/31/sports/20120731_SWIM_511_337-slide-3S37/20120731_SWIM_511_337-slide-3S37-hpLarge.jpg"
+          },
+          {
+            "type": "blog480",
+            "height": 330,
+            "width": 480,
+            "link": "https://web.archive.org/web/20120731234947/http://graphics8.nytimes.com/images/2012/07/31/sports/20120731_SWIM_511_337-slide-3S37/20120731_SWIM_511_337-slide-3S37-blog480.jpg"
+          },
+          {
+            "type": "jumbo",
+            "height": 682,
+            "width": 1024,
+            "link": "https://web.archive.org/web/20120731234947/http://graphics8.nytimes.com/images/2012/07/31/sports/20120731_SWIM_511_337-slide-3S37/20120731_SWIM_511_337-slide-3S37-jumbo.jpg"
+          },
+          {
+            "type": "slide",
+            "height": 399,
+            "width": 600,
+            "link": "https://web.archive.org/web/20120731234947/http://graphics8.nytimes.com/images/2012/07/31/sports/20120731_SWIM_511_337-slide-3S37/20120731_SWIM_511_337-slide-3S37-slide.jpg"
+          },
+          {
+            "type": "hpMedium",
+            "height": 250,
+            "width": 337,
+            "link": "https://web.archive.org/web/20120731234947/http://graphics8.nytimes.com/images/2012/07/31/sports/20120731_SWIM_511_337-slide-3S37/20120731_SWIM_511_337-slide-3S37-hpMedium.jpg"
+          }
+        ]
+      }
+    },
+    {
+      "title": "20120731_SWIM_511_337-slide-29NF",
+      "slideLink": "",
+      "textOverlay": "",
+      "captions": [
+        {
+          "type": "Full",
+          "caption": "<p>Phelps after anchoring the United States&#8217; 800-meter freestyle relay team.</p>"
+        },
+        {
+          "type": "Short",
+          "caption": "Michael Phelps after the United States’ 800-meter freestyle relay."
+        }
+      ],
+      "image": {
+        "credit": "Jed Jacobsohn for The New York Times",
+        "crops": [
+          {
+            "type": "thumbWide",
+            "height": 126,
+            "width": 190,
+            "link": "https://web.archive.org/web/20120731234947/http://graphics8.nytimes.com/images/2012/07/31/sports/20120731_SWIM_511_337-slide-29NF/20120731_SWIM_511_337-slide-29NF-thumbWide.jpg"
+          },
+          {
+            "type": "thumbStandard",
+            "height": 75,
+            "width": 75,
+            "link": "https://web.archive.org/web/20120731234947/http://graphics8.nytimes.com/images/2012/07/31/sports/20120731_SWIM_511_337-slide-29NF/20120731_SWIM_511_337-slide-29NF-thumbStandard.jpg"
+          },
+          {
+            "type": "superJumbo",
+            "height": 933,
+            "width": 1400,
+            "link": "https://web.archive.org/web/20120731234947/http://graphics8.nytimes.com/images/2012/07/31/sports/20120731_SWIM_511_337-slide-29NF/20120731_SWIM_511_337-slide-29NF-superJumbo.jpg"
+          },
+          {
+            "type": "hpLarge",
+            "height": 250,
+            "width": 511,
+            "link": "https://web.archive.org/web/20120731234947/http://graphics8.nytimes.com/images/2012/07/31/sports/20120731_SWIM_511_337-slide-29NF/20120731_SWIM_511_337-slide-29NF-hpLarge.jpg"
+          },
+          {
+            "type": "blog480",
+            "height": 330,
+            "width": 480,
+            "link": "https://web.archive.org/web/20120731234947/http://graphics8.nytimes.com/images/2012/07/31/sports/20120731_SWIM_511_337-slide-29NF/20120731_SWIM_511_337-slide-29NF-blog480.jpg"
+          },
+          {
+            "type": "jumbo",
+            "height": 682,
+            "width": 1024,
+            "link": "https://web.archive.org/web/20120731234947/http://graphics8.nytimes.com/images/2012/07/31/sports/20120731_SWIM_511_337-slide-29NF/20120731_SWIM_511_337-slide-29NF-jumbo.jpg"
+          },
+          {
+            "type": "thumbLarge",
+            "height": 150,
+            "width": 150,
+            "link": "https://web.archive.org/web/20120731234947/http://graphics8.nytimes.com/images/2012/07/31/sports/20120731_SWIM_511_337-slide-29NF/20120731_SWIM_511_337-slide-29NF-thumbLarge.jpg"
+          },
+          {
+            "type": "slide",
+            "height": 400,
+            "width": 600,
+            "link": "https://web.archive.org/web/20120731234947/http://graphics8.nytimes.com/images/2012/07/31/sports/20120731_SWIM_511_337-slide-29NF/20120731_SWIM_511_337-slide-29NF-slide.jpg"
+          },
+          {
+            "type": "hpMedium",
+            "height": 250,
+            "width": 337,
+            "link": "https://web.archive.org/web/20120731234947/http://graphics8.nytimes.com/images/2012/07/31/sports/20120731_SWIM_511_337-slide-29NF/20120731_SWIM_511_337-slide-29NF-hpMedium.jpg"
+          }
+        ]
+      }
+    },
+    {
+      "title": "20120731_SWIM_511_337-slide-6BK3",
+      "slideLink": "",
+      "textOverlay": "",
+      "captions": [
+        {
+          "type": "Full",
+          "caption": "<p>Phelps swimming in the 200-meter butterfly final.</p>"
+        },
+        {
+          "type": "Short",
+          "caption": "Phelps swimming in the 200-meter butterfly final."
+        }
+      ],
+      "image": {
+        "credit": "Jed Jacobsohn for The New York Times",
+        "crops": [
+          {
+            "type": "superJumbo",
+            "height": 1365,
+            "width": 2048,
+            "link": "https://web.archive.org/web/20120731234947/http://graphics8.nytimes.com/images/2012/07/31/sports/20120731_SWIM_511_337-slide-6BK3/20120731_SWIM_511_337-slide-6BK3-superJumbo.jpg"
+          },
+          {
+            "type": "hpLarge",
+            "height": 250,
+            "width": 511,
+            "link": "https://web.archive.org/web/20120731234947/http://graphics8.nytimes.com/images/2012/07/31/sports/20120731_SWIM_511_337-slide-6BK3/20120731_SWIM_511_337-slide-6BK3-hpLarge.jpg"
+          },
+          {
+            "type": "blog480",
+            "height": 331,
+            "width": 480,
+            "link": "https://web.archive.org/web/20120731234947/http://graphics8.nytimes.com/images/2012/07/31/sports/20120731_SWIM_511_337-slide-6BK3/20120731_SWIM_511_337-slide-6BK3-blog480.jpg"
+          },
+          {
+            "type": "jumbo",
+            "height": 683,
+            "width": 1024,
+            "link": "https://web.archive.org/web/20120731234947/http://graphics8.nytimes.com/images/2012/07/31/sports/20120731_SWIM_511_337-slide-6BK3/20120731_SWIM_511_337-slide-6BK3-jumbo.jpg"
+          },
+          {
+            "type": "slide",
+            "height": 400,
+            "width": 600,
+            "link": "https://web.archive.org/web/20120731234947/http://graphics8.nytimes.com/images/2012/07/31/sports/20120731_SWIM_511_337-slide-6BK3/20120731_SWIM_511_337-slide-6BK3-slide.jpg"
+          },
+          {
+            "type": "hpMedium",
+            "height": 250,
+            "width": 337,
+            "link": "https://web.archive.org/web/20120731234947/http://graphics8.nytimes.com/images/2012/07/31/sports/20120731_SWIM_511_337-slide-6BK3/20120731_SWIM_511_337-slide-6BK3-hpMedium.jpg"
+          }
+        ]
+      }
+    },
+    {
+      "title": "20120731_SWIM_511_337-slide-NDUQ",
+      "slideLink": "",
+      "textOverlay": "",
+      "captions": [
+        {
+          "type": "Full",
+          "caption": "<p>China&#8217;s Ye Shiwen after winning the 200 I.M. on Tuesday.</p>"
+        },
+        {
+          "type": "Short",
+          "caption": "China’s Ye Shiwen after winning the 200 I.M. on Tuesday."
+        }
+      ],
+      "image": {
+        "credit": "Odd Andersen/Agence France-Presse — Getty Images",
+        "crops": [
+          {
+            "type": "superJumbo",
+            "height": 1363,
+            "width": 2048,
+            "link": "https://web.archive.org/web/20120731234947/http://graphics8.nytimes.com/images/2012/07/31/sports/20120731_SWIM_511_337-slide-NDUQ/20120731_SWIM_511_337-slide-NDUQ-superJumbo.jpg"
+          },
+          {
+            "type": "hpLarge",
+            "height": 250,
+            "width": 511,
+            "link": "https://web.archive.org/web/20120731234947/http://graphics8.nytimes.com/images/2012/07/31/sports/20120731_SWIM_511_337-slide-NDUQ/20120731_SWIM_511_337-slide-NDUQ-hpLarge.jpg"
+          },
+          {
+            "type": "blog480",
+            "height": 330,
+            "width": 480,
+            "link": "https://web.archive.org/web/20120731234947/http://graphics8.nytimes.com/images/2012/07/31/sports/20120731_SWIM_511_337-slide-NDUQ/20120731_SWIM_511_337-slide-NDUQ-blog480.jpg"
+          },
+          {
+            "type": "jumbo",
+            "height": 682,
+            "width": 1024,
+            "link": "https://web.archive.org/web/20120731234947/http://graphics8.nytimes.com/images/2012/07/31/sports/20120731_SWIM_511_337-slide-NDUQ/20120731_SWIM_511_337-slide-NDUQ-jumbo.jpg"
+          },
+          {
+            "type": "slide",
+            "height": 399,
+            "width": 600,
+            "link": "https://web.archive.org/web/20120731234947/http://graphics8.nytimes.com/images/2012/07/31/sports/20120731_SWIM_511_337-slide-NDUQ/20120731_SWIM_511_337-slide-NDUQ-slide.jpg"
+          },
+          {
+            "type": "hpMedium",
+            "height": 250,
+            "width": 337,
+            "link": "https://web.archive.org/web/20120731234947/http://graphics8.nytimes.com/images/2012/07/31/sports/20120731_SWIM_511_337-slide-NDUQ/20120731_SWIM_511_337-slide-NDUQ-hpMedium.jpg"
+          }
+        ]
+      }
+    },
+    {
+      "title": "20120731_SWIM_511_337-slide-80GE",
+      "slideLink": "",
+      "textOverlay": "",
+      "captions": [
+        {
+          "type": "Full",
+          "caption": "<p>Allison Schmitt set an Olympic record in winning the gold medal in the 200 freestyle.</p>"
+        },
+        {
+          "type": "Short",
+          "caption": "Allison Schmitt won the gold medal in the 200 freestyle."
+        }
+      ],
+      "image": {
+        "credit": "Jed Jacobsohn for The New York Times",
+        "crops": [
+          {
+            "type": "superJumbo",
+            "height": 1365,
+            "width": 2048,
+            "link": "https://web.archive.org/web/20120731234947/http://graphics8.nytimes.com/images/2012/07/31/sports/20120731_SWIM_511_337-slide-80GE/20120731_SWIM_511_337-slide-80GE-superJumbo.jpg"
+          },
+          {
+            "type": "hpLarge",
+            "height": 250,
+            "width": 511,
+            "link": "https://web.archive.org/web/20120731234947/http://graphics8.nytimes.com/images/2012/07/31/sports/20120731_SWIM_511_337-slide-80GE/20120731_SWIM_511_337-slide-80GE-hpLarge.jpg"
+          },
+          {
+            "type": "blog480",
+            "height": 330,
+            "width": 480,
+            "link": "https://web.archive.org/web/20120731234947/http://graphics8.nytimes.com/images/2012/07/31/sports/20120731_SWIM_511_337-slide-80GE/20120731_SWIM_511_337-slide-80GE-blog480.jpg"
+          },
+          {
+            "type": "jumbo",
+            "height": 683,
+            "width": 1024,
+            "link": "https://web.archive.org/web/20120731234947/http://graphics8.nytimes.com/images/2012/07/31/sports/20120731_SWIM_511_337-slide-80GE/20120731_SWIM_511_337-slide-80GE-jumbo.jpg"
+          },
+          {
+            "type": "slide",
+            "height": 400,
+            "width": 600,
+            "link": "https://web.archive.org/web/20120731234947/http://graphics8.nytimes.com/images/2012/07/31/sports/20120731_SWIM_511_337-slide-80GE/20120731_SWIM_511_337-slide-80GE-slide.jpg"
+          },
+          {
+            "type": "hpMedium",
+            "height": 250,
+            "width": 337,
+            "link": "https://web.archive.org/web/20120731234947/http://graphics8.nytimes.com/images/2012/07/31/sports/20120731_SWIM_511_337-slide-80GE/20120731_SWIM_511_337-slide-80GE-hpMedium.jpg"
+          }
+        ]
+      }
+    },
+    {
+      "title": "20120731_SWIM_511_337-slide-BDA3",
+      "slideLink": "",
+      "textOverlay": "",
+      "captions": [
+        {
+          "type": "Full",
+          "caption": "<p>Schmitt also set a new Olympic record with her time of 1 minute 53.61 seconds.</p>"
+        },
+        {
+          "type": "Short",
+          "caption": "Schmitt also set a new Olympic record with her time."
+        }
+      ],
+      "image": {
+        "credit": "Jed Jacobsohn for The New York Times",
+        "crops": [
+          {
+            "type": "superJumbo",
+            "height": 1365,
+            "width": 2048,
+            "link": "https://web.archive.org/web/20120731234947/http://graphics8.nytimes.com/images/2012/07/31/sports/20120731_SWIM_511_337-slide-BDA3/20120731_SWIM_511_337-slide-BDA3-superJumbo.jpg"
+          },
+          {
+            "type": "hpLarge",
+            "height": 250,
+            "width": 511,
+            "link": "https://web.archive.org/web/20120731234947/http://graphics8.nytimes.com/images/2012/07/31/sports/20120731_SWIM_511_337-slide-BDA3/20120731_SWIM_511_337-slide-BDA3-hpLarge.jpg"
+          },
+          {
+            "type": "blog480",
+            "height": 330,
+            "width": 480,
+            "link": "https://web.archive.org/web/20120731234947/http://graphics8.nytimes.com/images/2012/07/31/sports/20120731_SWIM_511_337-slide-BDA3/20120731_SWIM_511_337-slide-BDA3-blog480.jpg"
+          },
+          {
+            "type": "jumbo",
+            "height": 683,
+            "width": 1024,
+            "link": "https://web.archive.org/web/20120731234947/http://graphics8.nytimes.com/images/2012/07/31/sports/20120731_SWIM_511_337-slide-BDA3/20120731_SWIM_511_337-slide-BDA3-jumbo.jpg"
+          },
+          {
+            "type": "slide",
+            "height": 400,
+            "width": 600,
+            "link": "https://web.archive.org/web/20120731234947/http://graphics8.nytimes.com/images/2012/07/31/sports/20120731_SWIM_511_337-slide-BDA3/20120731_SWIM_511_337-slide-BDA3-slide.jpg"
+          },
+          {
+            "type": "hpMedium",
+            "height": 250,
+            "width": 337,
+            "link": "https://web.archive.org/web/20120731234947/http://graphics8.nytimes.com/images/2012/07/31/sports/20120731_SWIM_511_337-slide-BDA3/20120731_SWIM_511_337-slide-BDA3-hpMedium.jpg"
+          }
+        ]
+      }
+    }
+  ]
+})
+
+}
+/*
+     FILE ARCHIVED ON 23:49:47 Jul 31, 2012 AND RETRIEVED FROM THE
+     INTERNET ARCHIVE ON 12:28:12 Feb 23, 2022.
+     JAVASCRIPT APPENDED BY WAYBACK MACHINE, COPYRIGHT INTERNET ARCHIVE.
+
+     ALL OTHER CONTENT MAY ALSO BE PROTECTED BY COPYRIGHT (17 U.S.C.
+     SECTION 108(a)(3)).
+*/
+/*
+playback timings (ms):
+  captures_list: 131.207
+  exclusion.robots: 0.084
+  exclusion.robots.policy: 0.077
+  RedisCDXSource: 0.6
+  esindex: 0.007
+  LoadShardBlock: 102.783 (3)
+  PetaboxLoader3.datanode: 93.352 (4)
+  CDXLines.iter: 25.15 (3)
+  load_resource: 179.742
+  PetaboxLoader3.resolve: 160.207
+*/

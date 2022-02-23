@@ -1,0 +1,94 @@
+var _____WB$wombat$assign$function_____ = function(name) {return (self._wb_wombat && self._wb_wombat.local_init && self._wb_wombat.local_init(name)) || self[name]; };
+if (!self.__WB_pmw) { self.__WB_pmw = function(obj) { this.__WB_source = obj; return this; } }
+{
+  let window = _____WB$wombat$assign$function_____("window");
+  let self = _____WB$wombat$assign$function_____("self");
+  let document = _____WB$wombat$assign$function_____("document");
+  let location = _____WB$wombat$assign$function_____("location");
+  let top = _____WB$wombat$assign$function_____("top");
+  let parent = _____WB$wombat$assign$function_____("parent");
+  let frames = _____WB$wombat$assign$function_____("frames");
+  let opener = _____WB$wombat$assign$function_____("opener");
+
+var Tacoda_AMS_DDC_snippet_version = "1.3a";
+var Tacoda_AMD_DDC_snippet_date = "011905";
+var Tacoda_AMS_DDC_clist = new Array("TID","RMID","nyt-d");
+var Tacoda_AMS_DDC_clist_notset = null;
+var Tacoda_AMS_DDC_keys = new Array();
+var Tacoda_AMS_DDC_values = new Array();
+var Tacoda_AMS_DDC_vars_num = 0;
+function Tacoda_AMS_DDC_getCookie(name) {
+var cname = name + "=";
+var dc = document.cookie;
+if (dc.length > 0) {
+for(var begin = dc.indexOf(cname); begin != -1; begin = 
+dc.indexOf(cname, begin)) {
+if((begin != 0) && (dc.charAt(begin - 1) != ' ')) {
+begin++;
+continue;
+}
+begin += cname.length;
+var end = dc.indexOf(";", begin);
+if (end == -1)
+end = dc.length;
+return unescape(dc.substring(begin, end));
+}
+}
+return Tacoda_AMS_DDC_clist_notset;
+}
+function Tacoda_AMS_DDC_addPair(key, value) {
+Tacoda_AMS_DDC_keys[Tacoda_AMS_DDC_vars_num] = key;
+Tacoda_AMS_DDC_values[Tacoda_AMS_DDC_vars_num] = value;
+Tacoda_AMS_DDC_vars_num++;
+}
+function Tacoda_AMS_DDC_collect_vars() {
+var Tacoda_AMS_DDC_vars_as_string = "";
+for(var i = 0; i < Tacoda_AMS_DDC_vars_num; i++) {
+Tacoda_AMS_DDC_vars_as_string += "&var_" + escape( 
+Tacoda_AMS_DDC_keys[i] ) + "=" + escape( Tacoda_AMS_DDC_values[i] ) ;
+}
+return Tacoda_AMS_DDC_vars_as_string;
+}
+function Tacoda_AMS_DDC(Tacoda_AMS_DDC_img_url, Tacoda_AMS_DDC_js) {
+Tacoda_AMS_DDC_js = parseFloat(Tacoda_AMS_DDC_js);
+Tacoda_AMS_DDC_args = "?" + Math.random() + "&snippet_version=" + 
+Tacoda_AMS_DDC_snippet_version + "&referrer=" + escape(document.referrer) + 
+"&page=" + escape(window.location.href);
+Tacoda_AMS_DDC_args += "&timezone=" + (new Date()).getTimezoneOffset();
+for(var i = 0; i < Tacoda_AMS_DDC_clist.length; i++) {
+var clist_name = Tacoda_AMS_DDC_clist[i];
+var clist_value = Tacoda_AMS_DDC_getCookie(clist_name);
+if(clist_value != null) {
+Tacoda_AMS_DDC_args += "&clist_" + escape(clist_name) + "=" + 
+escape(clist_value);
+}
+}
+Tacoda_AMS_DDC_args += Tacoda_AMS_DDC_collect_vars();
+document.write('<IMG '+'SRC="' + Tacoda_AMS_DDC_img_url + 
+Tacoda_AMS_DDC_args + '" height="1" width="1" border="0" id="tacoda">');
+}
+
+
+
+}
+/*
+     FILE ARCHIVED ON 20:17:54 Jun 30, 2007 AND RETRIEVED FROM THE
+     INTERNET ARCHIVE ON 12:25:49 Feb 23, 2022.
+     JAVASCRIPT APPENDED BY WAYBACK MACHINE, COPYRIGHT INTERNET ARCHIVE.
+
+     ALL OTHER CONTENT MAY ALSO BE PROTECTED BY COPYRIGHT (17 U.S.C.
+     SECTION 108(a)(3)).
+*/
+/*
+playback timings (ms):
+  captures_list: 674.438
+  exclusion.robots: 0.11
+  exclusion.robots.policy: 0.1
+  RedisCDXSource: 0.668
+  esindex: 0.01
+  LoadShardBlock: 230.767 (3)
+  PetaboxLoader3.datanode: 247.903 (4)
+  CDXLines.iter: 67.754 (3)
+  load_resource: 80.313
+  PetaboxLoader3.resolve: 33.445
+*/

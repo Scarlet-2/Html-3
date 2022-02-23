@@ -1,0 +1,101 @@
+var _____WB$wombat$assign$function_____ = function(name) {return (self._wb_wombat && self._wb_wombat.local_init && self._wb_wombat.local_init(name)) || self[name]; };
+if (!self.__WB_pmw) { self.__WB_pmw = function(obj) { this.__WB_source = obj; return this; } }
+{
+  let window = _____WB$wombat$assign$function_____("window");
+  let self = _____WB$wombat$assign$function_____("self");
+  let document = _____WB$wombat$assign$function_____("document");
+  let location = _____WB$wombat$assign$function_____("location");
+  let top = _____WB$wombat$assign$function_____("top");
+  let parent = _____WB$wombat$assign$function_____("parent");
+  let frames = _____WB$wombat$assign$function_____("frames");
+  let opener = _____WB$wombat$assign$function_____("opener");
+
+/*  embeddedSlideshowBuilder.js
+ * $Id: embeddedSlideshowBuilder.js 93547 2012-04-03 04:49:32Z madhuri_k $
+ * author: vishal
+ *  This file is used for embedded slideshows which gets image details from an api and 
+ *  displays with respect to an image slider  .
+ *--------------------------------------------------------------------------*/
+	if(NYTD.options && NYTD.options.renderstyle) {
+        switch(NYTD.options.renderstyle) {
+		case 'embeddedSlideShowTmag':
+			NYTD.require(NYTD.Hosts.jsHost + '/js/app/common/slideshow/embeddedSlideshowAdapter.js');
+			NYTD.require(NYTD.Hosts.jsHost + '/js/app/tmagazine/fullScreenSlideShow/fullScreenSlideShow.js');
+			break;
+		default:
+			NYTD.require(NYTD.Hosts.jsHost + '/js/app/common/slideshow/embeddedSlideshowStandard.js');
+		}
+	}
+    else {
+		NYTD.require('/js/app/lib/scriptaculous/1.8.3/effects.js');
+		NYTD.require(NYTD.Hosts.jsHost + '/js/app/common/slideshow/embeddedSlideshowStandard.js');
+	}
+
+			
+	NYTD.embeddedSlideshowBuilder = Class.create({		
+			
+			initialize: function() {    
+			if(NYTD.options && NYTD.options.renderstyle) {        
+					switch(NYTD.options.renderstyle) {
+						case 'embeddedSlideShowTmag':
+							this.includeCSS(NYTD.Hosts.wwwHost + "/css/tmagazine/1.0/screen/modules/fullScreenSlideShow.css");
+							NYTD.options.cropType = 'jumbo';
+							var slideshowObj = new NYTD.embeddedSlideshowAdapter(NYTD.options);
+							var cData = slideshowObj.buildObjectData(data);
+							if(!NYTD.fullScreenSlideShowFactory) {
+								NYTD.fullScreenSlideShowFactory = new NYTD.fullScreenSlideShowFactory();
+							}
+							var fullScreenDivs = $$('div[class=fullScreenSlideShow]');
+							var wideAd = $$('body[class~=wideAd]')[0];
+							var width = 592;
+							if(wideAd) {
+								width = 472;
+							}
+							for(var i = 0; i < fullScreenDivs.length; i++){
+								if(fullScreenDivs[i].childElements().length == 0) {
+									NYTD.fullScreenSlideShowFactory.createSlideshow('#'+fullScreenDivs[i].id, width, 490, true, cData);
+								}
+							}
+							break;
+					  
+						default:
+							new NYTD.embeddedSlideshowStandard();
+					}
+				}
+				else {
+						new NYTD.embeddedSlideshowStandard();
+				}
+			},   
+	  
+			includeCSS: function (css_filePath) {
+				var cssElement  = document.createElement('link');
+				cssElement.rel = 'stylesheet'
+				cssElement.type = 'text/css';
+				cssElement.href = css_filePath;
+				document.getElementsByTagName('head')[0].appendChild(cssElement);
+			}    
+	});
+
+
+}
+/*
+     FILE ARCHIVED ON 23:50:00 Jul 31, 2012 AND RETRIEVED FROM THE
+     INTERNET ARCHIVE ON 12:28:09 Feb 23, 2022.
+     JAVASCRIPT APPENDED BY WAYBACK MACHINE, COPYRIGHT INTERNET ARCHIVE.
+
+     ALL OTHER CONTENT MAY ALSO BE PROTECTED BY COPYRIGHT (17 U.S.C.
+     SECTION 108(a)(3)).
+*/
+/*
+playback timings (ms):
+  captures_list: 151.652
+  exclusion.robots: 0.078
+  exclusion.robots.policy: 0.072
+  RedisCDXSource: 10.154
+  esindex: 0.007
+  LoadShardBlock: 75.266 (3)
+  PetaboxLoader3.datanode: 119.339 (5)
+  CDXLines.iter: 29.595 (3)
+  load_resource: 215.808 (2)
+  PetaboxLoader3.resolve: 98.274 (2)
+*/
